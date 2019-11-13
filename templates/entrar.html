@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+<!-- MAIN -->
+{% block main %}
+<h1>ESTAS DENTRO {{ nombre }}</h1>
+{{ frase }}
+
+<form action="/" method="post">
+    <button type="submit">Cerrar Sesión</button>
+</form>
+
+<!-- <a href="/"><button>CERRAR SESIÓN</button></a> -->
+{% endblock %}

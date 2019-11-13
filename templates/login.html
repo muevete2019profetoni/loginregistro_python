@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+<!-- MAIN -->
+{% block main %}
+<h1>LOGIN</h1>
+<div class="field">
+  <div class="control">
+    <form action="/login" method="POST">
+      <input class="input is-medium" type="email" name="correo" id="correo" />
+      <input
+        class="input is-medium"
+        type="password"
+        name="contrasenya"
+        id="contrasenya"
+      />
+      <div class="control">
+        <button class="button is-primary" type="submit">ENTRAR</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% if usuario_no == True %}
+<span>Email o password, son incorrectos...Vuélve a intentarlo ó </span
+><a href="/registro">regístrate.</a>
+{% endif %} {% endblock %}

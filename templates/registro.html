@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+<!-- MAIN -->
+{% block main %}
+<h1>REGISTRO</h1>
+<div class="field">
+  <div class="control">
+    <form action="/registro" method="post">
+      <input
+        class="input is-medium"
+        type="text"
+        name="nombre"
+        id="nombre"
+        required
+        placeholder="ej. juan lopez"
+      />
+      <input
+        class="input is-medium"
+        type="email"
+        name="correo"
+        id="correo"
+        required
+        placeholder="ej. juanlopez@gmail.com"
+      />
+      <input
+        class="input is-medium"
+        type="password"
+        name="contrasenya"
+        id="contrasenya"
+        required
+        placeholder="ej. 1234"
+      />
+      <button class="button is-primary" type="submit">Registrar</button>
+    </form>
+  </div>
+</div>
+{% if usuario_no == True %}
+¡Tú email ya esta registrado, <a href="/login">vuelve al login!</a>
+{% endif %}
+
+{% endblock %}
