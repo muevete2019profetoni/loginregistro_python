@@ -19,12 +19,16 @@ from lib.conexionMySQL import Base_datos
 app = Flask(__name__)
 app.secret_key = 'todoSuperSecreto'
 
+# conectar Base de Datos
+bd = Base_datos('localhost', 'root', 'root', 'registro')
+
 
 """ INICIO """
 @app.route('/', methods=['GET','POST'])
 def inicio():
     if request.method == 'POST':
         session.clear()
+        bd.cerrar()
 
     if 'email' in session:
         return redirect(url_for('entrar'))
@@ -38,16 +42,16 @@ def login():
     if request.method == 'POST':
         email = request.form.get('correo')
         password = request.form.get('contrasenya')
+
         # base de datos - validar
-        bd = Base_datos('localhost', 'root', 'root', 'registro')
         leer_email = bd.query(
-            f'SELECT email FROM registrado WHERE email="{email}"'
+            f'SELECT email FROM usuario WHERE email="{email}"'
         )
         if leer_email != ():
-            bd_total = Base_datos('localhost', 'root', 'root', 'registro')
-            leer_email_password = bd_total.query(
-                f'SELECT email,password,nombre FROM registrado WHERE email="{email}"'
-            )
+            
+            leer_email_password = bd.query(
+            f'SELECT email,password,nombre FROM usuario WHERE email="{email}"')
+            
             if leer_email_password[0][0] == email and leer_email_password[0][1] == password:
                 # iniciar session
                 session['nombre'] = leer_email_password[0][2] 
@@ -73,17 +77,15 @@ def registro():
         email = request.form.get('correo')
         password = request.form.get('contrasenya')
         # base de datos - validar
-        bd = Base_datos('localhost', 'root', 'root', 'registro')
         leer_email = bd.query(
-            f'SELECT email FROM registrado WHERE email="{email}"'
+            f'SELECT email FROM usuario WHERE email="{email}"'
         )
         if leer_email != ():
             return render_template('registro.html', usuario_no=True)
 
         # registrar en la base de datos
-        bd = Base_datos('localhost', 'root', 'root', 'registro')
         leer_email = bd.query(
-            f'INSERT INTO registrado VALUES(null,"{nombre}","{email}","{password}",1)'
+            f'INSERT INTO usuario VALUES(null,"{nombre}","{email}","{password}",1)'
         )
         return redirect(url_for('login'))
 
@@ -102,7 +104,7 @@ def entrar():
         email = session['email']
         password = session['password']
     else:
-        email = ''
+        return redirect(url_for('/'))
 
     frase = f'session: {email} / {password}'
 

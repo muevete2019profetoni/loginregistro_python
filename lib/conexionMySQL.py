@@ -11,5 +11,8 @@ class Base_datos():
         with self.conexion.cursor() as cursor:
             cursor.execute(sql)
             self.conexion.commit()
-            self.conexion.close()
             return cursor.fetchall()
+
+    # Cerrar base de datos
+    def cerrar(self):
+        self.conexion.close()
